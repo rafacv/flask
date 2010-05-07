@@ -9,7 +9,7 @@
     :copyright: (c) 2010 by Armin Ronacher.
     :license: BSD, see LICENSE for more details.
 """
-from __future__ import with_statement
+
 import sqlite3
 from contextlib import closing
 from flask import Flask, request, session, g, redirect, url_for, abort, \

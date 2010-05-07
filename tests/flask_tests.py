@@ -9,7 +9,7 @@
     :copyright: (c) 2010 by Armin Ronacher.
     :license: BSD, see LICENSE for more details.
 """
-from __future__ import with_statement
+
 import os
 import re
 import sys
@@ -111,7 +111,7 @@ class BasicFunctionalityTestCase(unittest.TestCase):
         def expect_exception(f, *args, **kwargs):
             try:
                 f(*args, **kwargs)
-            except RuntimeError, e:
+            except RuntimeError as e:
                 assert e.args and 'session is unavailable' in e.args[0]
             else:
                 assert False, 'expected exception'
@@ -203,16 +203,16 @@ class BasicFunctionalityTestCase(unittest.TestCase):
         app = flask.Flask(__name__)
         @app.route('/unicode')
         def from_unicode():
-            return u'Hällo Wörld'
+            return 'Hällo Wörld'
         @app.route('/string')
         def from_string():
-            return u'Hällo Wörld'.encode('utf-8')
+            return 'Hällo Wörld'.encode('utf-8')
         @app.route('/args')
         def from_tuple():
             return 'Meh', 400, {'X-Foo': 'Testing'}, 'text/plain'
         c = app.test_client()
-        assert c.get('/unicode').data == u'Hällo Wörld'.encode('utf-8')
-        assert c.get('/string').data == u'Hällo Wörld'.encode('utf-8')
+        assert c.get('/unicode').data == 'Hällo Wörld'.encode('utf-8')
+        assert c.get('/string').data == 'Hällo Wörld'.encode('utf-8')
         rv = c.get('/args')
         assert rv.data == 'Meh'
         assert rv.headers['X-Foo'] == 'Testing'
@@ -261,7 +261,7 @@ class BasicFunctionalityTestCase(unittest.TestCase):
             return None
         try:
             app.test_client().get('/')
-        except ValueError, e:
+        except ValueError as e:
             assert str(e) == 'View function did not return a response'
             pass
         else:
@@ -289,7 +289,7 @@ class JSONTestCase(unittest.TestCase):
         app = flask.Flask(__name__)
         @app.route('/add', methods=['POST'])
         def add():
-            return unicode(flask.request.json['a'] + flask.request.json['b'])
+            return str(flask.request.json['a'] + flask.request.json['b'])
         c = app.test_client()
         rv = c.post('/add', data=flask.json.dumps({'a': 1, 'b': 2}),
                             content_type='application/json')
@@ -346,7 +346,7 @@ class TemplatingTestCase(unittest.TestCase):
         @app.template_filter()
         def my_reverse(s):
             return s[::-1]
-        assert 'my_reverse' in  app.jinja_env.filters.keys()
+        assert 'my_reverse' in app.jinja_env.filters.keys()
         assert app.jinja_env.filters['my_reverse'] == my_reverse
         assert app.jinja_env.filters['my_reverse']('abcd') == 'dcba'
 
@@ -355,7 +355,7 @@ class TemplatingTestCase(unittest.TestCase):
         @app.template_filter('strrev')
         def my_reverse(s):
             return s[::-1]
-        assert 'strrev' in  app.jinja_env.filters.keys()
+        assert 'strrev' in app.jinja_env.filters.keys()
         assert app.jinja_env.filters['strrev'] == my_reverse
         assert app.jinja_env.filters['strrev']('abcd') == 'dcba'
 

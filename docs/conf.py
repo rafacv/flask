@@ -40,8 +40,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Flask'
-copyright = u'2010, Armin Ronacher'
+project = 'Flask'
+copyright = '2010, Armin Ronacher'
 
 import pkg_resources
 
@@ -172,8 +172,8 @@ htmlhelp_basename = 'Flaskdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('latexindex', 'Flask.tex', u'Flask Documentation',
-   u'Armin Ronacher', 'manual'),
+  ('latexindex', 'Flask.tex', 'Flask Documentation',
+   'Armin Ronacher', 'manual'),
 ]
 
 # Documents to append as an appendix to all manuals.
